@@ -88,19 +88,63 @@ def get_password_problem_one(filename):
 def get_password_problem_two(filename):
     print(f"Finding the problem two password for {filename}")
 
+    my_input = get_input(filename)
+
+    # Perform each move, If the result of a move is zero increase
+    # The zero counter.
+    curr_pos = 50
+    new_pos = 50
+    num_zeros = 0
+    num_turns = 0
+
+    for move in my_input:
+#        print(f"Current position {curr_pos}")
+        (direction, move) = move
+
+        # We need to find the number of complete turns.
+        # Each turn adds one zero position.
+        num_turns = move // 100
+#        print(f"Number of complete turns: {num_turns}")
+        num_zeros += num_turns
+
+        # Perform the move to find new posisition
+        # Detect if we don't start or land on position zero.
+        # If we are not we can can deternine of we passed position zero.
+        if direction == 'L':
+#            print(f"Moving left {move} steps")
+            new_pos = (curr_pos - move) % 100
+
+            if ((new_pos != 0) and (curr_pos != 0) and (new_pos > curr_pos)):
+#                print("Passing zero from low to high")
+                num_zeros += 1
+
+        else:
+#           print(f"Moving right {move} steps")
+           new_pos = (move + curr_pos) % 100
+
+           if ((new_pos != 0) and (curr_pos != 0) and (new_pos < curr_pos)):
+#                print("Passing zero from high to low")
+                num_zeros += 1
+
+        # Update the current position and check if landed on position zero.
+        curr_pos = new_pos
+        if (curr_pos == 0):
+            num_zeros += 1
+
+    print(f"The number of zeros are {num_zeros}\n")
+
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 if __name__=="__main__":
     print("Advent of Code 2025, day 01")
     print("===========================")
 
-    get_password_problem_one("day01_example.txt")
+#    get_password_problem_one("day01_example.txt")
     get_password_problem_one("day01_input.txt")
 
-    get_password_problem_two("day01_example.txt")
+#    get_password_problem_two("day01_example.txt")
     get_password_problem_two("day01_input.txt")
 
     sys.exit(0)
 
-#=======================================================================
 #=======================================================================
