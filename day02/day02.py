@@ -52,14 +52,38 @@ def get_input(filename):
     return l
 
 #-------------------------------------------------------------------
+# add_invalid_ids_problem_one
+#
+# Find accumulate values that are invalid in a set of given ranges.
+# Stragy
+# 1. step through the sequence
+#
+# 2. check each number if the lengt of the numger is even. If is
+# it may be an invalid id.
+#
+# 2. Split the number in half and compare the halves.
+# If they match it is an invalid id.
+#-------------------------------------------------------------------
 def add_invalid_ids_problem_one(filename):
     print(f"Finding the sum of invalid IDs, the problem for {filename}")
 
     my_input = get_input(filename)
-    sum_invalid_ids = 1337
+    sum_invalid_ids = 0
 
-    print(my_input)
-    print(f"The number of zeros are {sum_invalid_ids}\n")
+    for curr_range in my_input:
+        (start, end) = curr_range
+        print(f"The current range {start} - {end}")
+
+        for i in range(start, end + 1):
+            i_len2 = len(str(i)) // 2
+            i_left = str(i)[:i_len2]
+            i_right = str(i)[i_len2:]
+            if i_left == i_right:
+                print(f"Founded it: {i}")
+                sum_invalid_ids += int(i)
+        print("\n")
+
+    print(f"\nThe sum of all invalid ids: {sum_invalid_ids}\n")
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
@@ -67,8 +91,8 @@ if __name__=="__main__":
     print("Advent of Code 2025, day 02")
     print("===========================")
 
-    add_invalid_ids_problem_one("day02_example.txt")
-#    get_password_problem_one("day01_input.txt")
+#    add_invalid_ids_problem_one("day02_example.txt")
+    add_invalid_ids_problem_one("day02_input.txt")
 
     sys.exit(0)
 
