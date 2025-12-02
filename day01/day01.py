@@ -4,7 +4,7 @@
 #
 # day01.py
 # --------
-# Solution to Advent of Code 2025, day 11.
+# Solution to Advent of Code 2025, day 01.
 # https://adventofcode.com/2025/day/1
 #
 #
