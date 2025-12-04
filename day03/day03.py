@@ -47,10 +47,54 @@ def get_input(filename):
     l = []
     with open(filename,'r') as f:
         for line in f:
-            for part in line.split(','):
-                a, b = map(int, part.split('-'))
-                l.append((a, b))
+            l.append(line.rstrip("\n"))
     return l
+
+#-------------------------------------------------------------------
+# Find the max value in a string of digits, and the first position
+# from left to right that value appears. Returns the max_value
+# max_pos and the string with the max_value removed.
+#-------------------------------------------------------------------
+def find_max(s):
+    max_val = -1
+    max_pos = 0
+
+    for i in range(len(s)):
+        if int(s[i]) > max_val:
+            max_val = int(s[i])
+            max_pos = i
+    return (max_val, max_pos)
+
+#-------------------------------------------------------------------
+# Find max joltage for a given string.
+#-------------------------------------------------------------------
+def max_joltage(s):
+    print(s)
+
+    # Get first max, but ignore last digit.
+    (max_val1, max_pos1) = find_max(s[:-1])
+
+    # Get seoond max, starting from the next
+    # digit afteer where max_val1 was found
+    (max_val2, max_pos2) = find_max(s[max_pos1 + 1:])
+
+    joltage = max_val1 * 10 + max_val2
+    print("max joltage for", s, ":", joltage)
+    return joltage
+
+#-------------------------------------------------------------------
+# Get total joltage for all banks.
+#-------------------------------------------------------------------
+def total_joltage(filename):
+    my_battery_banks = get_input(filename)
+    print(my_battery_banks)
+
+    total_joltage = 0
+    for bank in my_battery_banks:
+        total_joltage += max_joltage(bank)
+    print("Total joltage for", filename, ":", total_joltage)
+    return total_joltage
+
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
@@ -58,7 +102,7 @@ if __name__=="__main__":
     print("Advent of Code 2025, day 03")
     print("===========================")
 
-    sys.exit(0)
-
+    total_joltage("day03_input.txt")
+#    total_joltage("day03_example.txt")
 
 #=======================================================================
